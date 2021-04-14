@@ -1,0 +1,31 @@
+{
+	"name": "tsDraw",
+	"version": "1.0.0",
+	"description": "\"# Ts Draw\"",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest --config jestconfig.json",
+		"build": "tsc",
+		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+		"lint": "tslint --fix -c tslint.json 'src/*{.ts}'",
+		"prepare" : "npm run build",
+		"prepublishOnly" : "npm test && npm run lint"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/FebNov/tsDraw.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/FebNov/tsDraw/issues"
+	},
+	"homepage": "https://github.com/FebNov/tsDraw#readme",
+	"devDependencies": {
+		"prettier": "^2.2.1",
+		"tslint": "^6.1.3",
+		"tslint-config-prettier": "^1.18.0",
+		"typescript": "^4.2.4"
+	}
+}
