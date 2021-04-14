@@ -71,10 +71,10 @@ enum ModuleName{
 	HOME = 'Home'
 }
 interface Noderegister{
-	name: {
+	[name:string]: {
 		html:string,
-		props?:string;
-		option?:string;
+		props?:any,
+		option?:any;
 	}
 }
 export default class Drawflow {
@@ -548,7 +548,7 @@ export default class Drawflow {
           const listclassConnection = this.connection_selected.parentElement.classList;
           this.dispatch('connectionSelected', { output_id: listclassConnection[2].slice(14), input_id: listclassConnection[1].slice(13), output_class: listclassConnection[3], input_class: listclassConnection[4] });
           if(this.reroute_fix_curvature) {
-            this.connection_selected.parentElement.querySelectorAll(".main-path").forEach((item, i) => {
+            this.connection_selected.parentElement.querySelectorAll(".main-path").forEach((item:any, i:any) => {
               item.classList.add("selected");
             });
           }
@@ -688,6 +688,7 @@ export default class Drawflow {
     }
   
     dragEnd(e:any) {
+		let ele_last:Element
       if(this.select_elements != null) {
         this.select_elements.remove();
         this.select_elements = null;
@@ -696,11 +697,11 @@ export default class Drawflow {
       if (e.type === "touchend") {
         const e_pos_x = this.mouse_x;
         const e_pos_y = this.mouse_y;
-        const ele_last = document.elementFromPoint(e_pos_x, e_pos_y);
+        ele_last = document.elementFromPoint(e_pos_x, e_pos_y);
       } else {
         const e_pos_x = e.clientX;
         const e_pos_y = e.clientY;
-        const ele_last = e.target;
+        ele_last = e.target;
       }
   
       if(this.drag) {
