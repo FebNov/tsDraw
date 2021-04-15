@@ -1,9 +1,5 @@
+import {ConnectionStartEvent, ConnectionEvent, MousePositionEvent} from './otherinter'
 export class Drawflow {
-
-    constructor(element: HTMLElement);
-    import(data: any): void;
-
-
     /**
      *
      * @param eventName

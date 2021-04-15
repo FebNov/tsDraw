@@ -59,20 +59,15 @@ export interface DrawflowConnectionDetail {
 	  FIXED = 'fixed',
 	  VIEW ='view'
   }
-  export interface HTMLElement {
-	container:any;
-	/**
-	  * @default null
-	  */
-	render:any;
-  }
   export enum ModuleName{
 	  HOME = 'Home'
   }
   export interface Noderegister{
 	  [name:string]: {
-		  html:string,
-		  props?:any,
-		  option?:any;
+		  [html:string]:{
+			html?:NodeList,
+			option?:any;
+			props?:any;
+		  },		  
 	  }
   }

@@ -1,205 +1,59 @@
 import {
-  ConnectionEvent,
   Noderegister,
   ModuleName,
-  HTMLElement,
-  DrawFlowEditorMode,
-  MousePositionEvent,
-  DrawflowConnectionDetail,
-  DrawflowConnection,
-  DrawflowNode,
-  ConnectionStartEvent} from './interfaces/otherinter'
+  DrawFlowEditorMode,DrawflowConnection,ConnectionEvent,
+  DrawflowNode} from './interfaces/otherinter'
 export default class Drawflow {
 	noderegister:Noderegister;
 	events: object;
 	drag:boolean;
-  /**
-	* Active reroute
-	* @default false
-	*/
   reroute: boolean;
-  /**
-	* Fix adding points
-	* @default false
-	*/
   reroute_fix_curvature: boolean;
-  /**
-	 * Curvature
-	 * @default 0.5
-	 */
    curvature: number;
-   /**
-	* Curvature reroute first point and last point
-	* @default 0.5
-	*/
    reroute_curvature_start_end: number;
-   /**
-	* Curvature reroute
-	* @default 0.5
-	*/
    reroute_curvature: number;
-   /**
-	* Width of reroute
-	* @default 6
-	*/
-   reroute_width: number;
-   /**
-	* Width of line
-	* @default 5
-	*/
+   reroute_width: any;
    line_path: number;
-   /**
-	* Force the first input to drop the connection on top of the node
-	* @default false
-	*/
    force_first_input: boolean;
-   /**
-	* edit or fixed mode
-	* @default edit
-	*/
   editor_mode: DrawFlowEditorMode;
-	/**
-	 * Default zoom
-	 * @default 1
-	 */
-	 zoom: number;
-	 /**
-	  * Default zoom max
-	  * @default 1.6
-	  */
-	 zoom_max: number;
-	 /**
-	  * Default zoom min
-	  * @default 0.5
-	  */
-	 zoom_min: number;
-	 /**
-	  * Default zoom value update
-	  * @default 0.1
-	  */
-	 zoom_value: number;
-	 /**
-	  * Default zoom last value
-	  * @default 1
-	  */
+	zoom: number;
+	zoom_max: number;
+	zoom_min: number;
+	zoom_value: number;
 	zoom_last_value: number;
-	 /**
-	  * Drag nodes on click inputs
-	  * @default true
-	  */
 	draggable_inputs: boolean;
 	drawflow: any;
-	container:any;
-	  /**
-	  * nodeId default Value
-	  * @default 1
-	  */
 	 nodeId:number;
-	  /**
-	  * ele_selected default null
-	  * @default null
-	  */
 	 ele_selected:any;
-	  /**
-	  * node_selected default null
-	  * @default null
-	  */
 	  node_selected:any;
-	  /**
-	  * precanvas default null
-	  * @default null
-	  */
-	   precanvas:any;
-	  /**
-	  * drag_point default false
-	  * @default false
-	  */
 	   drag_point:boolean;
-	  /**
-	  * editor_selected default false
-	  * @default false
-	  */
 	   editor_selected:boolean;
-	  /**
-	  * connection default false
-	  * @default false
-	  */
 	   connection:boolean;
-	  /**
-	  * connection_ele default null
-	  * @default null
-	  */
 	   connection_ele:any;
-	   /**
-	   * connection_selected default null
-	   * @default null
-	   */
 		connection_selected:any;
-	  /**
-	  * canvas_x default Value
-	  * @default 0
-	  */
 	   canvas_x:number;
-	  /**
-	  * canvas_y default Value
-	  * @default 0
-	  */
 	  canvas_y:number;
-	  /**
-	  * pos_x default Value
-	  * @default 0
-	  */
 	 pos_x:number;
-	/**
-	  * pos_y default Value
-	  * @default 0
-	  */
 	  pos_y:number;
-	  /**
-	  * pos_x_start default Value
-	  * @default 0
-	  */
 	 pos_x_start:number;
-	  /**
-	  * pos_y_start default Value
-	  * @default 0
-	  */
 	 pos_y_start:number;
-	/**
-	  * mouse_x default Value
-	  * @default 0
-	  */
 	  mouse_x:number;
-	  /**
-	  * mouse_y default Value
-	  * @default 0
-	  */
 	 mouse_y:number;
-	  /**
-	   * first_click default null
-	   * @default null
-	   */
 	  first_click:any;
-	  /**
-	   * useuuid default flase
-	   * @default false
-	   */
 		useuuid:boolean;
-	  /**
-	   * select_elements default null
-	   * @default null
-	   */
 	  select_elements:any;
 	  evCache: any;
 	  prevDiff:number;
 	  moduleName:ModuleName;
 	  e_pos_x:number =0;
 	  e_pos_y:number =0;
-	  render :any
-	constructor({container, render}: HTMLElement){
+	  container:HTMLElement;
+	  precanvas:HTMLElement;
+	  render:any;
+	constructor({container, render}){
 	  this.events = {};
 	  this.container = container;
-	  this.precanvas = null;
+	  this.precanvas = this.precanvas;
 	  this.nodeId = 1;
 	  this.ele_selected = null;
 	  this.node_selected = null;
@@ -253,10 +107,7 @@ export default class Drawflow {
 	  this.precanvas = document.createElement('div');
 	  this.precanvas.classList.add("drawflow");
 	  this.container.appendChild(this.precanvas);
-
-
 	  /* Mouse and Touch Actions */
-
 	  this.container.addEventListener('mouseup', this.dragEnd.bind(this));
 	  this.container.addEventListener('mousemove', this.position.bind(this));
 	  this.container.addEventListener('mousedown', this.click.bind(this) );
@@ -864,7 +715,7 @@ export default class Drawflow {
 
 	}
 
-	drawConnection(ele) {
+	drawConnection(ele:any) {
 	const connection = document.createElementNS('http://www.w3.org/2000/svg',"svg");
 	  this.connection_ele = connection;
 	  const path = document.createElementNS('http://www.w3.org/2000/svg',"path");
@@ -1679,7 +1530,7 @@ export default class Drawflow {
 		id: newNodeId,
 		name,
 		data,
-		class: classoverride,
+		class: className,
 		html,
 		typenode,
 		inputs: json_inputs,
@@ -1695,7 +1546,7 @@ export default class Drawflow {
 	  return newNodeId;
 	}
 
-	addNodeImport (dataNode, precanvas) {
+	addNodeImport (dataNode:any, precanvas:HTMLElement) {
 	  const parent = document.createElement('div');
 	  parent.classList.add("parent-node");
 
@@ -1810,7 +1661,7 @@ export default class Drawflow {
 	  this.precanvas.appendChild(parent);
 	}
 
-	addRerouteImport(dataNode) {
+	addRerouteImport(dataNode:any) {
 	  const reroute_width = this.reroute_width
 	  const reroute_fix_curvature = this.reroute_fix_curvature
 
@@ -1868,7 +1719,7 @@ export default class Drawflow {
 	 * Update data element. Ex: 5, { name: 'Drawflow' }
 	 * @param id
 	*/
-	updateNodeDataFromId(id: string | number, data) : void{
+	updateNodeDataFromId(id: string | number, data:any) : void{
 	  const moduleName = this.getModuleFromNodeId(id)
 	  this.drawflow.drawflow[moduleName].data[id].data = data;
 	  if(this.moduleName === moduleName) {
@@ -1960,7 +1811,7 @@ export default class Drawflow {
 	  if(this.moduleName === moduleName) {
 		document.querySelector('#node-'+id+' .inputs .input.'+input_class).remove();
 	  }
-	  const removeInputs = [];
+	  const removeInputs :ConnectionEvent[]= [];
 	  Object.keys(infoNode.inputs[input_class].connections).map(function(key, index) {
 		const id_output = infoNode.inputs[input_class].connections[index].node;
 		const output_class = infoNode.inputs[input_class].connections[index].input;
@@ -1974,14 +1825,14 @@ export default class Drawflow {
 	  delete this.drawflow.drawflow[moduleName].data[id].inputs[input_class];
 
 	  // Update connection
-	  const connections = [];
+	  const connections:DrawflowConnection[] = [];
 	  const connectionsInputs = this.drawflow.drawflow[moduleName].data[id].inputs
 	  Object.keys(connectionsInputs).map(function(key, index) {
 		connections.push(connectionsInputs[key]);
 	  });
 	  this.drawflow.drawflow[moduleName].data[id].inputs = {};
 	  const input_class_id = input_class.slice(6);
-	  let nodeUpdates = [];
+	  let nodeUpdates :string[]= [];
 	  connections.forEach((item, i) => {
 		item.connections.forEach((itemx, f) => {
 		  nodeUpdates.push(itemx);
